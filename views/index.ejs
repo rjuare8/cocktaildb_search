@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cocktail List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333; /* Darker background color */
+            color: #f4f4f4; /* Lighter text color for contrast */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #f4f4f4; /* Light color for the heading */
+            margin-bottom: 20px;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-bar {
+            flex: 1;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            border: 1px solid #555; /* Darker border color for input */
+            border-radius: 4px;
+        }
+        .form-group {
+            margin-left: 10px;
+        }
+        .form-group input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #444; /* Darker background color for button */
+            color: #fff; /* White text color */
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            height: 42px;
+            box-sizing: border-box;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #555; /* Slightly lighter on hover */
+        }
+        .cocktail-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .cocktail-item {
+            background-color: #444; /* Dark background color for items */
+            border: 1px solid #555; /* Dark border color */
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+            width: 180px; /* Adjusted width */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+        }
+        .cocktail-item img {
+            max-width: 120px; /* Increased size */
+            max-height: 120px; /* Increased size */
+            margin-bottom: 10px; /* Space between image and text */
+        }
+        .cocktail-item p {
+            margin: 0; /* Remove default margin */
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>The Drinky Drink List</h1>
+    
+    <form id="SearchBar" action="/search" method="POST">
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" name="query" placeholder="Search for a cocktail...">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
+
+    <% if (locals.cocktails) { %>
+        <div class="cocktail-list" id="cocktailList">
+            <% cocktails.forEach(function(cocktail) { %>
+                <div class="cocktail-item" data-name="<%= cocktail.name %>">
+                    <img src="<%= cocktail.icon %>" alt="<%= cocktail.name %>">
+                    <p><%= cocktail.name %></p>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+
+    <script>
+        document.querySelectorAll('.cocktail-item').forEach(item => {
+            item.addEventListener('click', async function() {
+                const name = this.getAttribute('data-name');
+                window.location.href = `/cocktail/${encodeURIComponent(name)}`;
+            });
+        });
+    </script>
+
+</body>
+</html>
